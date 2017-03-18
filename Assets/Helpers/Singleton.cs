@@ -11,20 +11,13 @@ namespace RL_Helpers {      //Default namespace for helper code
             if (sGM == null) {
                 sGM = (T)this;
                 DontDestroyOnLoad(gameObject);
-                DebugMsg("First time creation of:" + this.GetType().Name);
+                DB.MsgFormat("First time creation of:{0}",this.GetType().Name);
                 return true;        //Signal back if this is the first time this has been created
             } else if (sGM != this) {
                 Destroy(gameObject);
-                DebugMsg("Subsequent creation of:" + this.GetType().Name + " ignored");
+                DB.MsgFormat("Subsequent creation of:{0} ignored",this.GetType().Name);
             }
             return false;   //Don't do it twice
-        }
-
-        //Allows debug string to be output, but allows this to turned off anythere in code by clearing ShowDebug 
-        public static void DebugMsg(string vMessage) {
-            if (ShowDebug) {
-                Debug.Log(vMessage);
-            }
         }
     }
 }
