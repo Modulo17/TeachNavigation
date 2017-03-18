@@ -28,19 +28,30 @@ public class WayPointList : MonoBehaviour {
         tGO.GetComponentInChildren<MeshRenderer>().material.color = vColour;
         tWP.Add(mList, vDestination);
         if(mList.Count==1) {        //do first one if this is only one, rest will then sequence
-            mNA.destination = tWP.transform.position;
+			mNA.SetDestination(tWP.transform.position);
         }
     }
 
     private void Update() {
         if(mList.Count>0) {
-            if(mNA.remainingDistance<0.5f) {
+			if(Arrived) {
                 WayPoint tWP=mList[0];
                 tWP.Remove();
                 if(mList.Count>0) {
-                    mNA.destination = mList[0].transform.position;
+					mNA.SetDestination(mList[0].transform.position);
                 }
             }
         }
     }
+
+	bool	Arrived {
+		get {
+			if(!mNA.pathPending)
+			{
+				return mNA.remainingDistance<0.5;
+			}
+			return	false;
+		}
+	}
+
 }

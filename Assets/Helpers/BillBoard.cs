@@ -12,7 +12,7 @@ public class BillBoard : MonoBehaviour {
 
     void LateUpdate() {        //Undo Parent rotation
         if(NoParentRotation) {
-            mRotation = transform.rotation;     //Keep intial rotation
+			transform.rotation=mRotation;     //Restore intial rotation
         }
     }
 
