@@ -27,7 +27,9 @@ public class WayPoint : MonoBehaviour {
     }
 
     void Update() {
-        transform.LookAt(transform.position + mMainCamera.transform.rotation * Vector3.forward, mMainCamera.transform.rotation * Vector3.up);        //Turn object towards camera
-        mText.text = string.Format("Waypoint {0}", mWayPointList.IndexOf(this) + 1);
+		if (mWayPointList != null) {
+			mText.text = string.Format("Waypoint {0}", mWayPointList.IndexOf(this) + 1);
+		}
+        //transform.LookAt(transform.position + mMainCamera.transform.rotation * Vector3.forward, mMainCamera.transform.rotation * Vector3.up);        //Turn object towards camera
     }
 }
