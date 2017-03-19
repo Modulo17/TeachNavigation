@@ -161,14 +161,17 @@ public class PathFind : MonoBehaviour{
 	private	int			mHeight;						//Height of array
 	private	bool		mDebug;							//Should we show search path
 
-	/* This will find a path from To - From if it exists
+    float mSlowDotFade = 10f;
+    float mFastDotFade = 5f;
+
+    /* This will find a path from To - From if it exists
 	 * If it succeeds it will return a list of Waypoints, tile by tile, which if followed will lead to the destination 
 	 * If it fails the list will be empty
 	 * Any non null entry in the array will block the movement
 	 * if Debug is true , this will draw DebugDots on the path
 	*/
 
-	public	List<Waypoint>    Find(Waypoint vFrom,Waypoint vTo,GameObject[,] vMap, bool vDebug=false) {
+    public List<Waypoint>    Find(Waypoint vFrom,Waypoint vTo,GameObject[,] vMap, bool vDebug=false) {
 		mOpen = new List<Node> ();		//Keep a list of open paths to explore
 		mClosed = new List<Node> ();	//List of closed paths, I.E. ones which have been explored
 		mMap = vMap;					//Keep a pointer to the map of blocking tiles
@@ -180,8 +183,8 @@ public class PathFind : MonoBehaviour{
         mOpen.Add(tCurrent);        //Add starting point
 		mDebug=vDebug;				//Should we draw debug circles
 		if(mDebug) {
-			DebugHelper.DebugDot(vFrom.X,vFrom.Y,Color.yellow,2.0f);		//Show starting position
-			DebugHelper.DebugDot(vTo.X,vTo.Y,Color.cyan,2.0f);				//Show finish position
+			DebugHelper.DebugDot(vFrom.X,vFrom.Y,Color.yellow, mSlowDotFade);		//Show starting position
+			DebugHelper.DebugDot(vTo.X,vTo.Y,Color.cyan, mSlowDotFade);				//Show finish position
 		}
         return  CalculatePath();					//Run A*
     }
@@ -241,7 +244,7 @@ public class PathFind : MonoBehaviour{
             mOpen.Remove(tShortNode);               //Move it to closed list
             mClosed.Add(tShortNode);				//
 			if(mDebug) {			//Draw a Dot to show current path progress
-				DebugHelper.DebugDot(tShortNode.X,tShortNode.Y,Color.gray,1.0f);
+				DebugHelper.DebugDot(tShortNode.X,tShortNode.Y,Color.gray, mFastDotFade);
 			}
             Node tAtDestination = IsInClosed(mDestination);		//Check if we have reached the destination
 			if(tAtDestination!=null) {		//If the destination is in closed list we are there
@@ -251,7 +254,7 @@ public class PathFind : MonoBehaviour{
                     if(tNext!= null) {			//We dont need to include start position and when we have reached it parent will be null and list is complete
 						Waypoint tWayPoint=new Waypoint(tAtDestination);		//Add waypoint from current Destination as we walk the list back to the origin
 						if(mDebug) {		//Show Path if debugging
-							DebugHelper.DebugDot(tWayPoint.X,tWayPoint.Y,Color.red,2.0f);
+							DebugHelper.DebugDot(tWayPoint.X,tWayPoint.Y,Color.red,mSlowDotFade);
 						}
 						tPath.Insert(0,tWayPoint);	//Add waypoint, by adding at start of list we are reversing the Node list, which is what we want as its back to front when generated
 													//ie. the nodes go from the end point to the start
