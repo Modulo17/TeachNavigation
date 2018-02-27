@@ -2,14 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 
 public class WayPointList : MonoBehaviour {
 
     List<WayPoint> mList = new List<WayPoint>();
     public GameObject WaypointPrefab;
 
-    NavMeshAgent mNA;
+    UnityEngine.AI.NavMeshAgent mNA;
 
     public int Count {
         get {
@@ -19,7 +19,7 @@ public class WayPointList : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        mNA = GetComponent<NavMeshAgent>();
+        mNA = GetComponent<UnityEngine.AI.NavMeshAgent>();
 	}
 
     public  void    Add(Vector3 vDestination,Color vColour) {
