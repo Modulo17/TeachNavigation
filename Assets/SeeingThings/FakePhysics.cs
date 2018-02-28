@@ -36,9 +36,6 @@ public class FakePhysics : MonoBehaviour {
     //Used to move and rotate the character, this iwll be applied on Update
     protected   Vector3 mVelocity = Vector3.zero;
 
-    protected   Vector3 mCurrentMoveInput=Vector3.zero;
-    protected   Quaternion mCurrentRotationInput = Quaternion.identity;
-
     protected bool      mJumpInput=false;
 
 
@@ -56,16 +53,14 @@ public class FakePhysics : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         UpdatePhysicsInput();
-        transform.rotation *= mCurrentRotationInput;
-        mVelocity += mCurrentMoveInput;
         if(mJumpInput) {
             mVelocity.y += -Physics.gravity.y * JumpHeight;
         }
         if(!mController.isGrounded) {
             mVelocity += Physics.gravity;
         }
-        mController.Move(transform.localRotation * mVelocity * Time.deltaTime);
         ApplyDrag();
+        mController.Move(mVelocity * Time.deltaTime);
     }
 
     //Apply air or ground drag

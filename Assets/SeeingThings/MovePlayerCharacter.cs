@@ -8,10 +8,9 @@ public class MovePlayerCharacter : FakePhysics {
 
     //Update Character movement based on control input
     protected override void UpdatePhysicsInput() {
-        mCurrentRotationInput = Quaternion.Euler(0, GetRotationControl() * RotateSpeed, 0);
-        mCurrentMoveInput.x = Input.GetAxis("Horizontal") * MoveSpeed;
-        mCurrentMoveInput.y = 0.0f;
-        mCurrentMoveInput.z = Input.GetAxis("Vertical") * MoveSpeed;
+        transform.rotation *= Quaternion.Euler(0, GetRotationControl() * RotateSpeed, 0);
+        mVelocity.x += Input.GetAxis("Horizontal") * MoveSpeed;
+        mVelocity.z += Input.GetAxis("Vertical") * MoveSpeed;
         mJumpInput = mController.isGrounded && Input.GetButton("Jump");
     }
     //Get rotation either from mouse or XBox controller, not a great hack!
